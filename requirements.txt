@@ -1,0 +1,91 @@
+# Pater Backend Dependencies
+
+# ============ Web Framework ============
+fastapi==0.116.1
+uvicorn[standard]==0.30.1
+python-multipart==0.0.6
+starlette==0.41.3
+
+# ============ Data Validation ============
+pydantic==2.8.2
+pydantic-settings==2.4.0
+pydantic-core==2.27.1
+
+# ============ Database ============
+pymongo==4.7.2
+motor==3.4.0
+redis==5.0.4
+hiredis==2.2.3
+neo4j==5.20.1
+
+# ============ Machine Learning ============
+numpy==1.26.4
+pandas==2.2.0
+scikit-learn==1.5.1
+lightgbm==4.3.1
+statsmodels==0.14.2
+fbprophet==1.1.5
+torch==2.3.1
+torch-geometric==2.5.2
+joblib==1.4.2
+pickle5==0.0.12
+
+# ============ Web Scraping ============
+beautifulsoup4==4.12.3
+selenium==4.21.0
+requests==2.32.3
+lxml==4.9.4
+httpx==0.27.0
+aiohttp==3.10.1
+
+# ============ Utilities ============
+python-dotenv==1.0.1
+python-dateutil==2.8.2
+pytz==2024.1
+
+# ============ Logging & Monitoring ============
+structlog==24.2.0
+python-json-logger==2.0.7
+sentry-sdk==1.45.0
+
+# ============ Security ============
+python-jose==3.3.0
+passlib==1.7.4
+cryptography==42.0.5
+pyjwt==2.8.1
+
+# ============ Async ============
+asyncio==3.4.3
+aiofiles==23.2.1
+greenlet==3.0.3
+
+# ============ Testing ============
+pytest==7.4.4
+pytest-asyncio==0.23.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+httpx==0.27.0
+faker==22.0.0
+
+# ============ Development ============
+black==24.1.1
+flake8==7.0.0
+isort==5.13.2
+mypy==1.8.0
+pylint==3.0.3
+pre-commit==3.6.0
+
+# ============ Documentation ============
+mkdocs==1.5.3
+mkdocs-material==9.5.3
+
+# ============ Performance ============
+gunicorn==21.2.0
+orjson==3.9.12
+cachetools==5.3.2
+
+# ============ Cloud & DevOps ============
+google-cloud-storage==2.14.1
+google-cloud-logging==3.9.1
+google-auth==2.27.0
+cloud-init==23.4
