@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pater - Details</title>
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+    <div class="sidepanel-container">
+        <!-- Header -->
+        <header class="sidepanel-header">
+            <h1>Pater Details</h1>
+            <button class="close-btn" id="close-btn">✕</button>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="analysis">Analysis</button>
+            <button class="tab-btn" data-tab="history">History</button>
+            <button class="tab-btn" data-tab="watchlist">Watchlist</button>
+            <button class="tab-btn" data-tab="settings">Settings</button>
+        </div>
+
+        <!-- Tab Content -->
+        <main class="tab-content">
+            <!-- Analysis Tab -->
+            <div class="tab-pane active" id="analysis">
+                <section class="analysis-section">
+                    <h3>Price Analysis</h3>
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                </section>
+
+                <section class="analysis-section">
+                    <h3>Prediction Details</h3>
+                    <div class="prediction-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Current Price</span>
+                            <span class="detail-value" id="detail-current-price">₹ --</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Lowest Price (30 days)</span>
+                            <span class="detail-value" id="detail-lowest-price">₹ --</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Average Price</span>
+                            <span class="detail-value" id="detail-avg-price">₹ --</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Savings</span>
+                            <span class="detail-value savings" id="detail-savings">₹ --</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="analysis-section">
+                    <h3>Market Insights</h3>
+                    <div class="insights-list">
+                        <div class="insight-item">
+                            <span class="insight-icon">📊</span>
+                            <div>
+                                <p class="insight-title">Market Trend</p>
+                                <p class="insight-text" id="market-trend">Price is stable</p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <span class="insight-icon">🎉</span>
+                            <div>
+                                <p class="insight-title">Next Sale Event</p>
+                                <p class="insight-text" id="next-sale">Amazon Great Indian Festival</p>
+                            </div>
+                        </div>
+                        <div class="insight-item">
+                            <span class="insight-icon">⚡</span>
+                            <div>
+                                <p class="insight-title">Demand Level</p>
+                                <p class="insight-text" id="demand-level">High demand</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- History Tab -->
+            <div class="tab-pane" id="history">
+                <section class="history-section">
+                    <h3>Price History</h3>
+                    <div class="history-list" id="history-list">
+                        <p class="loading">Loading price history...</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Watchlist Tab -->
+            <div class="tab-pane" id="watchlist">
+                <section class="watchlist-section">
+                    <h3>Your Watchlist</h3>
+                    <div class="watchlist-controls">
+                        <input type="text" class="search-input" id="watchlist-search" placeholder="Search watchlist...">
+                    </div>
+                    <div class="watchlist-items" id="watchlist-items">
+                        <p class="empty-message">Your watchlist is empty</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-pane" id="settings">
+                <section class="settings-section">
+                    <h3>Preferences</h3>
+                    
+                    <div class="settings-group">
+                        <label class="setting-item">
+                            <input type="checkbox" id="notify-prices" checked>
+                            <span>Price drop notifications</span>
+                        </label>
+                        <label class="setting-item">
+                            <input type="checkbox" id="notify-sales" checked>
+                            <span>Festival sale alerts</span>
+                        </label>
+                        <label class="setting-item">
+                            <input type="checkbox" id="notify-restocks" unchecked>
+                            <span>Restock notifications</span>
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <label class="setting-item">
+                            <span>Price drop threshold</span>
+                            <input type="number" id="price-drop-threshold" value="10" min="1" max="50">
+                            <span class="unit">%</span>
+                        </label>
+                    </div>
+
+                    <div class="settings-group">
+                        <button class="btn btn-secondary" id="export-btn">📥 Export Data</button>
+                        <button class="btn btn-secondary" id="clear-btn">🗑️ Clear Data</button>
+                    </div>
+                </section>
+
+                <section class="settings-section">
+                    <h3>About</h3>
+                    <p class="about-text">
+                        Pater v0.1.0 - Smart Shopping Assistant<br>
+                        Powered by AI/ML predictions
+                    </p>
+                    <div class="settings-group">
+                        <a href="#" class="link" id="privacy-link">Privacy Policy</a>
+                        <a href="#" class="link" id="terms-link">Terms of Service</a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="utils/logger.js"></script>
+    <script src="utils/storage.js"></script>
+    <script src="utils/api-client.js"></script>
+    <script src="sidepanel.js"></script>
+</body>
+</html>

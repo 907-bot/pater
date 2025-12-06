@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pater - Smart Shopping</title>
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">💎 Pater</h1>
+                <p class="tagline">Smart Shopping Assistant</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Status Section -->
+            <section class="status-section">
+                <div class="status-badge" id="status-badge">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Loading...</span>
+                </div>
+            </section>
+
+            <!-- Product Info -->
+            <section class="product-section" id="product-section" style="display: none;">
+                <div class="product-info">
+                    <h3 class="product-name" id="product-name">Loading product...</h3>
+                    <p class="product-category" id="product-category">Category: -</p>
+                </div>
+
+                <!-- Current Price -->
+                <div class="price-info">
+                    <div class="price-item">
+                        <span class="price-label">Current Price</span>
+                        <span class="price-value" id="current-price">₹ -</span>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-label">Platform</span>
+                        <span class="platform-badge" id="platform-badge">Amazon</span>
+                    </div>
+                </div>
+
+                <!-- Prediction Card -->
+                <div class="prediction-card">
+                    <h3 class="prediction-title">🤖 AI Prediction</h3>
+                    
+                    <div class="prediction-item">
+                        <div class="prediction-label">
+                            <span class="label-text">Festival Probability</span>
+                            <span class="confidence-badge">87% confident</span>
+                        </div>
+                        <div class="prediction-value">
+                            <span class="big-value" id="festival-prob">--</span>
+                            <span class="unit">%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="festival-progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="prediction-item">
+                        <div class="prediction-label">
+                            <span class="label-text">Expected Discount</span>
+                        </div>
+                        <div class="prediction-value">
+                            <span class="big-value" id="expected-discount">--</span>
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+
+                    <div class="prediction-item">
+                        <div class="prediction-label">
+                            <span class="label-text">Buy Recommendation</span>
+                        </div>
+                        <div class="recommendation" id="recommendation">
+                            <span class="rec-badge rec-wait">Wait for better deal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="add-watchlist-btn">
+                        <span class="btn-icon">👁️</span>
+                        Add to Watchlist
+                    </button>
+                    <button class="btn btn-secondary" id="view-details-btn">
+                        <span class="btn-icon">📊</span>
+                        View Details
+                    </button>
+                </div>
+
+                <!-- Price History -->
+                <div class="price-history">
+                    <h4 class="history-title">📈 30-Day Price Trend</h4>
+                    <div class="chart-placeholder" id="price-chart">
+                        <p>Chart loading...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Empty State -->
+            <section class="empty-state" id="empty-state">
+                <div class="empty-content">
+                    <span class="empty-icon">🛍️</span>
+                    <h3>No Product Found</h3>
+                    <p>Visit a product page on Amazon, Flipkart, or Myntra to get AI-powered predictions!</p>
+                    <div class="supported-sites">
+                        <div class="site-badge">amazon.in</div>
+                        <div class="site-badge">flipkart.com</div>
+                        <div class="site-badge">myntra.com</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error State -->
+            <section class="error-state" id="error-state" style="display: none;">
+                <div class="error-content">
+                    <span class="error-icon">⚠️</span>
+                    <h3>Something went wrong</h3>
+                    <p id="error-message">Please try again or check your internet connection.</p>
+                    <button class="btn btn-primary btn-sm" id="retry-btn">
+                        Retry
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="#" class="footer-link" id="settings-link">⚙️ Settings</a>
+                <a href="#" class="footer-link" id="help-link">❓ Help</a>
+                <a href="#" class="footer-link" id="feedback-link">💬 Feedback</a>
+            </div>
+            <p class="footer-version">v0.1.0</p>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <script src="utils/logger.js"></script>
+    <script src="utils/storage.js"></script>
+    <script src="utils/api-client.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

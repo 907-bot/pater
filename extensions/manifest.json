@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Pater - Smart Shopping Assistant",
+  "version": "0.1.0",
+  "description": "AI-powered price predictions and smart shopping recommendations for Amazon, Flipkart & Myntra",
+  
+  "permissions": [
+    "storage",
+    "scripting",
+    "activeTab",
+    "tabs",
+    "notifications"
+  ],
+  
+  "host_permissions": [
+    "https://www.amazon.in/*",
+    "https://www.flipkart.com/*",
+    "https://www.myntra.com/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_title": "Pater - Smart Shopping"
+  },
+  
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png",
+    "256": "icons/icon-256.png"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.amazon.in/*",
+        "https://www.flipkart.com/*",
+        "https://www.myntra.com/*"
+      ],
+      "js": ["content-script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["styles/variables.css", "styles/common.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
