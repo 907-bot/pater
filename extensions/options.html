@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pater - Settings</title>
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="popup.css">
+    <style>
+        :root {
+            --options-width: 480px;
+        }
+
+        body {
+            background: var(--color-background);
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px;
+        }
+
+        .options-container {
+            max-width: var(--options-width);
+            margin: 0 auto;
+        }
+
+        .options-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .options-logo {
+            font-size: 40px;
+        }
+
+        .options-title-group h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--color-text);
+        }
+
+        .options-title-group p {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+
+        .options-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-icon {
+            font-size: 20px;
+        }
+
+        .setting-group {
+            margin-bottom: 20px;
+        }
+
+        .setting-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            cursor: pointer;
+        }
+
+        .setting-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .setting-text {
+            flex: 1;
+        }
+
+        .setting-text span {
+            display: block;
+            font-size: 14px;
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        .setting-text small {
+            display: block;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: 2px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .input-field {
+            flex: 1;
+        }
+
+        .input-field label {
+            display: block;
+            font-size: 14px;
+            color: var(--color-text);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .input-field input[type="text"],
+        .input-field input[type="number"],
+        .input-field input[type="url"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            background: var(--color-background);
+            color: var(--color-text);
+            transition: all 0.2s ease;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: var(--focus-ring);
+        }
+
+        .input-field small {
+            display: block;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: 6px;
+        }
+
+        .threshold-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .threshold-input {
+            width: 60px;
+            padding: 8px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            background: var(--color-background);
+            color: var(--color-text);
+            text-align: center;
+        }
+
+        .threshold-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .threshold-suffix {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--color-secondary);
+            color: var(--color-text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-secondary-hover);
+        }
+
+        .btn-danger {
+            background: var(--color-error);
+            color: white;
+            border-color: var(--color-error);
+        }
+
+        .btn-danger:hover {
+            opacity: 0.9;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--color-text);
+            color: var(--color-background);
+            padding: 14px 24px;
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .toast.error {
+            background: var(--color-error);
+            color: white;
+        }
+
+        .version-info {
+            text-align: center;
+            padding: 20px;
+            color: var(--color-text-secondary);
+            font-size: 13px;
+        }
+
+        .version-info a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .version-info a:hover {
+            text-decoration: underline;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.connected {
+            background: rgba(33, 128, 141, 0.15);
+            color: var(--color-success);
+        }
+
+        .status-badge.disconnected {
+            background: rgba(192, 21, 47, 0.15);
+            color: var(--color-error);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .link-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .link-item {
+            font-size: 13px;
+        }
+
+        .link-item a {
+            color: var(--color-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .link-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 520px) {
+            body {
+                padding: 16px;
+            }
+
+            .options-section {
+                padding: 16px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="options-container">
+        <!-- Header -->
+        <header class="options-header">
+            <span class="options-logo">💎</span>
+            <div class="options-title-group">
+                <h1>Pater Settings</h1>
+                <p>Configure your shopping assistant</p>
+            </div>
+        </header>
+
+        <!-- API Settings -->
+        <section class="options-section">
+            <h2 class="section-title">
+                <span class="section-icon">🔌</span>
+                API Configuration
+            </h2>
+            
+            <div class="setting-group">
+                <div class="input-group">
+                    <div class="input-field" style="flex: 1;">
+                        <label for="api-url">API Server URL</label>
+                        <input type="url" id="api-url" placeholder="https://pater-api-xyz-asia-south1.run.app">
+                        <small>Enter your Pater API server endpoint</small>
+                    </div>
+                    <div style="padding-top: 24px;">
+                        <span class="status-badge" id="api-status">
+                            <span class="status-dot"></span>
+                            <span id="status-text">Checking...</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="testAPI()">
+                    <span>🔄</span> Test Connection
+                </button>
+                <button class="btn btn-primary" onclick="saveAPI()">
+                    <span>💾</span> Save
+                </button>
+            </div>
+        </section>
+
+        <!-- Notification Settings -->
+        <section class="options-section">
+            <h2 class="section-title">
+                <span class="section-icon">🔔</span>
+                Notifications
+            </h2>
+            
+            <div class="setting-group">
+                <label class="setting-label">
+                    <input type="checkbox" class="setting-checkbox" id="notify-prices" checked>
+                    <div class="setting-text">
+                        <span>Price Drop Alerts</span>
+                        <small>Get notified when prices drop below your threshold</small>
+                    </div>
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">
+                    <input type="checkbox" class="setting-checkbox" id="notify-sales" checked>
+                    <div class="setting-text">
+                        <span>Festival Sale Alerts</span>
+                        <small>Get notified before major sale events</small>
+                    </div>
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">
+                    <input type="checkbox" class="setting-checkbox" id="notify-restocks">
+                    <div class="setting-text">
+                        <span>Restock Notifications</span>
+                        <small>Get notified when out-of-stock items are available</small>
+                    </div>
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="price-threshold">Price Drop Threshold</label>
+                        <div class="threshold-group">
+                            <input type="number" class="threshold-input" id="price-threshold" value="10" min="1" max="50">
+                            <span class="threshold-suffix">% below current price</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="saveNotifications()">
+                    <span>💾</span> Save Notifications
+                </button>
+            </div>
+        </section>
+
+        <!-- Appearance Settings -->
+        <section class="options-section">
+            <h2 class="section-title">
+                <span class="section-icon">🎨</span>
+                Appearance
+            </h2>
+            
+            <div class="setting-group">
+                <label class="setting-label">
+                    <input type="checkbox" class="setting-checkbox" id="dark-mode">
+                    <div class="setting-text">
+                        <span>Dark Mode</span>
+                        <small>Use dark theme (follows system preference by default)</small>
+                    </div>
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label class="setting-label">
+                    <input type="checkbox" class="setting-checkbox" id="compact-mode">
+                    <div class="setting-text">
+                        <span>Compact Mode</span>
+                        <small>Show more information in a smaller popup</small>
+                    </div>
+                </label>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="saveAppearance()">
+                    <span>💾</span> Save Appearance
+                </button>
+            </div>
+        </section>
+
+        <!-- Data Management -->
+        <section class="options-section">
+            <h2 class="section-title">
+                <span class="section-icon">💾</span>
+                Data Management
+            </h2>
+            
+            <div class="setting-group">
+                <div class="setting-text" style="padding: 12px 0;">
+                    <span>Watchlist Items</span>
+                    <small id="watchlist-count">Loading...</small>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="exportData()">
+                    <span>📥</span> Export Data
+                </button>
+                <button class="btn btn-danger" onclick="clearData()">
+                    <span>🗑️</span> Clear All Data
+                </button>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="options-section">
+            <h2 class="section-title">
+                <span class="section-icon">ℹ️</span>
+                About
+            </h2>
+            
+            <div class="link-group">
+                <div class="link-item">
+                    <a href="#" id="privacy-link">
+                        <span>🔒</span> Privacy Policy
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="#" id="terms-link">
+                        <span>📜</span> Terms of Service
+                    </a>
+                </div>
+                <div class="link-item">
+                    <a href="#" id="help-link">
+                        <span>❓</span> Help & Support
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Version Info -->
+        <div class="version-info">
+            <p>Pater v0.1.0 - Smart Shopping Assistant</p>
+            <p>Powered by AI/ML predictions</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <script src="utils/logger.js"></script>
+    <script src="utils/storage.js"></script>
+    <script src="utils/api-client.js"></script>
+    <script src="options.js"></script>
+</body>
+</html>

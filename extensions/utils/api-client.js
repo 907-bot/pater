@@ -3,25 +3,55 @@
 class APIClient {
     static API_BASE_URL = 'https://pater-api-xyz-asia-south1.run.app';
     static API_KEY = null;
+    static DEFAULT_API_URL = 'https://pater-api-xyz-asia-south1.run.app';
+    static initialized = false;
 
     static async init() {
-        // Load API key from storage
-        const storage = await chrome.storage.sync.get('apiKey');
-        this.API_KEY = storage.apiKey || null;
+        if (this.initialized) return;
+        
+        try {
+            // Load API URL from storage
+            const storage = await chrome.storage.sync.get('apiUrl');
+            if (storage.apiUrl) {
+                this.API_BASE_URL = storage.apiUrl;
+            }
+            
+            // Load API key from storage
+            const keyStorage = await chrome.storage.sync.get('apiKey');
+            this.API_KEY = keyStorage.apiKey || null;
+            
+            this.initialized = true;
+            Logger.info('APIClient initialized with URL:', this.API_BASE_URL);
+        } catch (error) {
+            Logger.error('Failed to initialize APIClient', error);
+        }
     }
 
     static async request(endpoint, options = {}) {
         try {
+            // Ensure URL is loaded from storage
+            if (!this.initialized) {
+                await this.init();
+            }
+
             const url = `${this.API_BASE_URL}${endpoint}`;
             const headers = {
                 'Content-Type': 'application/json',
                 ...(this.API_KEY && { 'X-API-Key': this.API_KEY })
             };
 
+            // Add timeout handling
+            const controller = new AbortController();
+            const timeout = options.timeout || 10000;
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+
             const response = await fetch(url, {
                 ...options,
-                headers: { ...headers, ...options.headers }
+                headers: { ...headers, ...options.headers },
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 throw new Error(`API Error: ${response.status} ${response.statusText}`);
@@ -91,14 +121,24 @@ class APIClient {
 
     static async health() {
         try {
-            return await this.request('/health', { method: 'GET' });
+            return await this.request('/health', { method: 'GET', timeout: 5000 });
         } catch {
             return { status: 'error' };
         }
     }
+
+    static async updateBaseUrl(newUrl) {
+        this.API_BASE_URL = newUrl;
+        await chrome.storage.sync.set({ apiUrl: newUrl });
+        Logger.info('API Base URL updated to:', newUrl);
+    }
+
+    static getBaseUrl() {
+        return this.API_BASE_URL;
+    }
 }
 
-// Initialize on load
-if (typeof window !== 'undefined') {
+// Initialize on load for background script context
+if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id) {
     APIClient.init();
 }
