@@ -14,6 +14,30 @@
 - [ ] All tests passing locally
 - [ ] Extension tested with load unpacked
 - [ ] API responding correctly locally
+- [ ] Privacy Policy page hosted
+- [ ] Terms of Service page hosted
+- [ ] Extension icons generated and verified
+
+---
+
+## 0️⃣ EXTENSION FILES OVERVIEW
+
+The Chrome extension includes these files:
+
+| File | Purpose |
+|------|---------|
+| `manifest.json` | Extension configuration (Manifest V3) |
+| `popup.html/js/css` | Main popup UI |
+| `sidepanel.html/js/css` | Detailed side panel view |
+| `background.js` | Service worker for background tasks |
+| `content-script.js` | Product detection on e-commerce sites |
+| `onboarding.html` | First-time user onboarding flow |
+| `options.html/js` | Settings and configuration page |
+| `privacy-policy.html` | Privacy policy page |
+| `terms-of-service.html` | Terms of service page |
+| `utils/*.js` | API client, storage, and logging utilities |
+| `styles/*.css` | Shared CSS design system |
+| `icons/*.png` | Extension icons (16, 48, 128, 256px) |
 
 ---
 
@@ -218,14 +242,11 @@ curl -X POST $SERVICE_URL/api/predict \
 
 ## 4️⃣ DEPLOY CHROME EXTENSION
 
-### Step 1: Update API URL in Extension
+### Step 1: Update API URL (Optional - Can be configured in settings)
 
-File: `extension/utils/api-client.js` or `extension/popup.js`
-
-```javascript
-// Change from localhost to production URL
-const API_BASE_URL = 'https://pater-api-xyz-asia-south1.run.app';
-```
+The extension now supports configurable API URLs through the Settings page. 
+Users can change the API endpoint from `https://pater-api-xyz-asia-south1.run.app` 
+to your production URL in the extension settings.
 
 ### Step 2: Test Locally
 
@@ -238,44 +259,92 @@ const API_BASE_URL = 'https://pater-api-xyz-asia-south1.run.app';
 # 5. Select pater/extension folder
 # 6. Visit amazon.in
 # 7. Click Pater icon
-# 8. Click "Get Prediction"
-# 9. Should show: "75% festival probability, 20-35% discount"
+# 8. Should show onboarding on first install
+# 9. Should show product predictions on product pages
 ```
 
 ### Step 3: Create Extension ZIP
 
 ```bash
-cd extension
+cd extensions
 
-# Create ZIP file
-zip -r ../pater-extension-v0.1.0.zip .
+# Remove any temporary files
+rm -f *.zip
+
+# Create ZIP file (exclude non-essential files)
+zip -r ../pater-extension-v0.1.0.zip . \
+  -x "*.DS_Store" \
+  -x "*/.DS_Store" \
+  -x "*.txt" \
+  -x "*/txt/*"
 
 # Verify ZIP contents
-unzip -l ../pater-extension-v0.1.0.zip | head -20
-
-# Should include: manifest.json, popup.html, popup.js, etc.
+unzip -l ../pater-extension-v0.1.0.zip
 ```
 
-### Step 4: Submit to Chrome Web Store
+### Step 4: Prepare Chrome Web Store Assets
+
+Create the following assets before submission:
+
+| Asset | Size | Format |
+|-------|------|--------|
+| Icon (main) | 128x128 px | PNG |
+| Screenshots | 1280x800 px (min 2, max 5) | PNG |
+| Promo tile | 440x280 px | PNG |
+| Small promo tile | 440x280 px | PNG |
+
+**Required for submission:**
+- At least 2 screenshots showing the extension in action
+- Privacy policy URL (must be publicly accessible)
+
+### Step 5: Submit to Chrome Web Store
+
+1. Go to: https://chrome.google.com/webstore/devconsole
+2. Sign in with your Google account
+3. Click "Create new item"
+4. Upload the ZIP file (`pater-extension-v0.1.0.zip`)
+5. Fill in store listing details:
+   - **Name:** Pater - Smart Shopping Assistant
+   - **Short description:** AI-powered price predictions for smarter shopping
+   - **Long description:** Detailed description of features
+   - **Category:** Shopping
+   - **Language:** English
+6. Upload icons (16, 48, 128 px - already in extension)
+7. Upload screenshots
+8. Add privacy policy URL (e.g., `https://your-domain.com/privacy-policy.html`)
+9. Add store listing contact email
+10. Click "Submit for review"
+
+### Step 6: Wait for Review
+
+- Initial review: 1-3 business days
+- Updates after rejection: 1-3 business days
+- Once approved, extension goes live automatically
+
+---
+
+## 5️⃣ HOST PRIVACY POLICY AND TERMS (Recommended)
+
+For a smoother Chrome Web Store review, host these pages:
+
+1. Upload `extensions/privacy-policy.html` to your website
+2. Upload `extensions/terms-of-service.html` to your website
+3. Update the links in:
+   - `popup.html` (footer links)
+   - `sidepanel.html` (settings links)
+   - `onboarding.html` (footer links)
+   - `options.html` (about section)
+4. Update `manifest.json` description with privacy policy URL if needed
 
 ```bash
-# Go to: https://chrome.google.com/webstore/devconsole
-# 1. Sign in with Google
-# 2. Create new item → Upload ZIP
-# 3. Fill in store details:
-#    Name: Pater - Smart Shopping Assistant
-#    Description: AI-powered price predictions...
-#    Category: Shopping
-#    Upload icons (16, 48, 128 px)
-#    Upload screenshots (1280x800)
-# 4. Add privacy policy URL
-# 5. Click "Publish"
-# 6. Wait 1-3 days for approval
+# Example hosting on any web server
+cp extensions/privacy-policy.html /var/www/html/
+cp extensions/terms-of-service.html /var/www/html/
 ```
 
 ---
 
-## 5️⃣ SETUP MONITORING & LOGGING
+## 6️⃣ SETUP MONITORING & LOGGING
 
 ### Step 1: Enable Cloud Logging
 
@@ -330,7 +399,7 @@ async def predict(request: PredictionRequest):
 
 ---
 
-## 6️⃣ CONTINUOUS DEPLOYMENT (Optional)
+## 7️⃣ CONTINUOUS DEPLOYMENT (Optional)
 
 ### Setup GitHub Actions
 
@@ -383,7 +452,7 @@ jobs:
 
 ---
 
-## 7️⃣ POST-DEPLOYMENT VERIFICATION
+## 8️⃣ POST-DEPLOYMENT VERIFICATION
 
 ### Checklist
 
@@ -397,6 +466,9 @@ jobs:
 - [ ] Response time < 500ms
 - [ ] Error rate < 1%
 - [ ] Users can install from Web Store
+- [ ] Onboarding flow works on first install
+- [ ] Settings page is accessible
+- [ ] Notifications work correctly
 
 ### Manual Testing
 
@@ -469,7 +541,7 @@ app.add_middleware(
 
 ---
 
-## 📊 SCALING FOR GROWTH
+## 9️⃣ SCALING FOR GROWTH
 
 ### Vertical Scaling
 ```bash
@@ -501,10 +573,11 @@ gcloud run deploy pater-api \
 
 ### Extension Won't Connect
 ```
-✓ Check API_BASE_URL is correct
+✓ Check API_BASE_URL is correct (configure in Settings page)
 ✓ Verify Cloud Run API is running (gcloud run list)
 ✓ Check CORS configuration
-✓ Look at Chrome DevTools console
+✓ Look at Chrome DevTools console (Extensions → Service Worker logs)
+✓ Try clicking "Test Connection" in Settings
 ```
 
 ### API Returns 500 Error
@@ -521,6 +594,21 @@ gcloud run deploy pater-api \
 ✓ Scale up instances (--max-instances)
 ✓ Optimize MongoDB queries
 ✓ Add Redis caching layer
+```
+
+### Onboarding Not Showing
+```
+✓ Extension is freshly installed (check chrome://extensions)
+✓ Clear extension storage: chrome.storage.sync.clear()
+✓ Reload extension
+```
+
+### Service Worker Not Loading
+```
+✓ Check manifest.json for errors
+✓ Verify background.service_worker path
+✓ Look at chrome://extensions → Service Worker link
+✓ Check for JavaScript errors
 ```
 
 ---
@@ -547,4 +635,22 @@ gcloud run deploy pater-api \
 
 **Deployment Checklist Complete! 🚀**
 
-Your Pater extension is now live for users to install!
+Your Pater extension is now ready for Chrome Web Store submission!
+
+## 📝 Quick Reference: Extension File Structure
+
+```
+extensions/
+├── manifest.json          # Extension configuration
+├── background.js          # Service worker
+├── content-script.js      # Product detection
+├── popup.html/js/css      # Main popup UI
+├── sidepanel.html/js/css  # Side panel view
+├── onboarding.html        # First-time setup
+├── options.html/js        # Settings page
+├── privacy-policy.html    # Privacy policy
+├── terms-of-service.html  # Terms of service
+├── icons/                 # Extension icons
+├── utils/                 # API client, storage, logger
+└── styles/                # Shared CSS design system
+```

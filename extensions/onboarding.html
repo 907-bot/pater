@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pater - Welcome</title>
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/common.css">
+    <style>
+        :root {
+            --onboarding-width: 400px;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--color-teal-500), var(--color-teal-700));
+            margin: 0;
+            padding: 20px;
+        }
+
+        .onboarding-container {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            max-width: var(--onboarding-width);
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .onboarding-header {
+            background: linear-gradient(135deg, var(--color-teal-500), var(--color-teal-600));
+            padding: 32px 24px;
+            text-align: center;
+            color: white;
+        }
+
+        .onboarding-logo {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .onboarding-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: white;
+        }
+
+        .onboarding-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 0;
+            color: white;
+        }
+
+        .onboarding-content {
+            padding: 24px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--color-text);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .feature-text h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 0 4px 0;
+            color: var(--color-text);
+        }
+
+        .feature-text p {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .supported-sites {
+            background: var(--color-background);
+            border-radius: var(--radius-base);
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .supported-sites-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .site-logos {
+            display: flex;
+            justify-content: space-around;
+            gap: 8px;
+        }
+
+        .site-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .site-name {
+            font-size: 10px;
+            color: var(--color-text-secondary);
+        }
+
+        .permissions-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 13px;
+            color: var(--color-text);
+        }
+
+        .permission-icon {
+            width: 20px;
+            text-align: center;
+            color: var(--color-primary);
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--color-secondary);
+            color: var(--color-text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-secondary-hover);
+        }
+
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-border);
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--color-primary);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .completion-icon {
+            font-size: 64px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .completion-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .completion-text {
+            text-align: center;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .success-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(33, 128, 141, 0.1);
+            border-radius: var(--radius-base);
+            margin-bottom: 12px;
+        }
+
+        .success-check span:first-child {
+            font-size: 20px;
+        }
+
+        .success-check span:last-child {
+            font-size: 13px;
+            color: var(--color-text);
+        }
+
+        .onboarding-footer {
+            padding: 16px 24px;
+            background: var(--color-background);
+            text-align: center;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+        }
+
+        .onboarding-footer a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .onboarding-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="onboarding-container">
+        <!-- Step 1: Welcome -->
+        <div class="step active" id="step-welcome">
+            <div class="onboarding-header">
+                <div class="onboarding-logo">💎</div>
+                <h1 class="onboarding-title">Welcome to Pater</h1>
+                <p class="onboarding-subtitle">Smart Shopping Assistant</p>
+            </div>
+            <div class="onboarding-content">
+                <div class="progress-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                
+                <h2 class="step-title">Your AI-Powered Shopping Assistant</h2>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon">🎯</span>
+                        <div class="feature-text">
+                            <h4>Festival Sale Predictions</h4>
+                            <p>Know exactly when to buy with 95%+ accuracy predictions</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">💰</span>
+                        <div class="feature-text">
+                            <h4>Price Drop Alerts</h4>
+                            <p>Get notified when prices drop to your target</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <div class="feature-text">
+                            <h4>30-Day Price History</h4>
+                            <p>Track price trends and find the best time to buy</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🛒</span>
+                        <div class="feature-text">
+                            <h4>Cross-Platform Comparison</h4>
+                            <p>Compare prices across Amazon, Flipkart & Myntra</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="supported-sites">
+                    <div class="supported-sites-title">Supported Sites</div>
+                    <div class="site-logos">
+                        <div class="site-logo">
+                            <span>🛍️</span>
+                            <span class="site-name">Amazon</span>
+                        </div>
+                        <div class="site-logo">
+                            <span>🛒</span>
+                            <span class="site-name">Flipkart</span>
+                        </div>
+                        <div class="site-logo">
+                            <span>👕</span>
+                            <span class="site-name">Myntra</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button class="btn btn-primary" onclick="nextStep()">Get Started</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Permissions -->
+        <div class="step" id="step-permissions">
+            <div class="onboarding-header">
+                <div class="onboarding-logo">🔐</div>
+                <h1 class="onboarding-title">Permissions</h1>
+                <p class="onboarding-subtitle">How we protect your privacy</p>
+            </div>
+            <div class="onboarding-content">
+                <div class="progress-dots">
+                    <div class="dot"></div>
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                </div>
+                
+                <h2 class="step-title">We're Transparent About Permissions</h2>
+                
+                <ul class="permissions-list">
+                    <li class="permission-item">
+                        <span class="permission-icon">📂</span>
+                        <span>Read product pages on Amazon, Flipkart & Myntra to show you price predictions</span>
+                    </li>
+                    <li class="permission-item">
+                        <span class="permission-icon">💾</span>
+                        <span>Store your watchlist and preferences locally on your device</span>
+                    </li>
+                    <li class="permission-item">
+                        <span class="permission-icon">🔔</span>
+                        <span>Send you notifications for price drops (only when you enable them)</span>
+                    </li>
+                    <li class="permission-item">
+                        <span class="permission-icon">🌐</span>
+                        <span>Connect to our API to provide AI-powered predictions</span>
+                    </li>
+                </ul>
+
+                <p style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 24px; line-height: 1.5;">
+                    We never track your browsing history, collect personal information, or sell your data. 
+                    Your privacy is our priority.
+                </p>
+
+                <div class="btn-container">
+                    <button class="btn btn-secondary" onclick="prevStep()">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Complete -->
+        <div class="step" id="step-complete">
+            <div class="onboarding-header" style="background: linear-gradient(135deg, var(--color-teal-600), #22c55e);">
+                <div class="onboarding-logo">✅</div>
+                <h1 class="onboarding-title">You're All Set!</h1>
+                <p class="onboarding-subtitle">Start saving on your shopping</p>
+            </div>
+            <div class="onboarding-content">
+                <div class="progress-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot active"></div>
+                </div>
+                
+                <div class="completion-icon">🎉</div>
+                <h2 class="completion-title">Welcome to Smarter Shopping!</h2>
+                <p class="completion-text">
+                    Visit any product on Amazon, Flipkart, or Myntra and click the Pater icon to get AI-powered price predictions.
+                </p>
+
+                <div class="success-check">
+                    <span>✅</span>
+                    <span>Watchlist feature enabled</span>
+                </div>
+                <div class="success-check">
+                    <span>✅</span>
+                    <span>Price alerts configured</span>
+                </div>
+                <div class="success-check">
+                    <span>✅</span>
+                    <span>30-day price tracking active</span>
+                </div>
+
+                <div class="btn-container">
+                    <button class="btn btn-primary" onclick="completeOnboarding()">Start Shopping</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="onboarding-footer">
+            By continuing, you agree to our 
+            <a href="#" id="privacy-link">Privacy Policy</a> and 
+            <a href="#" id="terms-link">Terms of Service</a>
+        </div>
+    </div>
+
+    <script src="utils/logger.js"></script>
+    <script src="utils/storage.js"></script>
+    <script>
+        let currentStep = 0;
+        const steps = ['step-welcome', 'step-permissions', 'step-complete'];
+
+        function showStep(index) {
+            steps.forEach((step, i) => {
+                document.getElementById(step).classList.toggle('active', i === index);
+            });
+        }
+
+        function nextStep() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function completeOnboarding() {
+            // Save onboarding completion status
+            Storage.set('onboardingComplete', true).then(() => {
+                Logger.info('Onboarding completed');
+                // Close the tab/window
+                window.close();
+            });
+        }
+
+        // Handle privacy and terms links
+        document.getElementById('privacy-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            chrome.tabs.create({ url: 'https://pater.example.com/privacy' });
+        });
+
+        document.getElementById('terms-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            chrome.tabs.create({ url: 'https://pater.example.com/terms' });
+        });
+
+        Logger.info('Onboarding page loaded');
+    </script>
+</body>
+</html>

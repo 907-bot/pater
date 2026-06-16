@@ -2,14 +2,15 @@
   "manifest_version": 3,
   "name": "Pater - Smart Shopping Assistant",
   "version": "0.1.0",
-  "description": "AI-powered price predictions and smart shopping recommendations for Amazon, Flipkart & Myntra",
+  "description": "AI-powered price predictions and smart shopping recommendations for Amazon, Flipkart & Myntra. Get festival sale predictions, price drop alerts, and 30-day price tracking.",
   
   "permissions": [
     "storage",
     "scripting",
     "activeTab",
     "tabs",
-    "notifications"
+    "notifications",
+    "alarms"
   ],
   
   "host_permissions": [
@@ -29,7 +30,8 @@
       "48": "icons/icon-48.png",
       "128": "icons/icon-128.png"
     },
-    "default_title": "Pater - Smart Shopping"
+    "default_title": "Pater - Smart Shopping",
+    "default_country": "IN"
   },
   
   "icons": {
@@ -55,10 +57,20 @@
     "default_path": "sidepanel.html"
   },
   
+  "options_page": "options.html",
+  
   "web_accessible_resources": [
     {
       "resources": ["styles/variables.css", "styles/common.css"],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+  
+  "minimum_chrome_version": "102",
+  
+  "category": "shopping",
+  
+  "offline_enabled": true,
+  
+  "short_name": "Pater"
 }
